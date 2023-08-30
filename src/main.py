@@ -1,6 +1,7 @@
 import pygame
 import sys
 import os
+from game import Game
 
 # Initialize Pygame
 pygame.init()
@@ -29,6 +30,7 @@ exit_button_rect = exit_button.get_rect(bottomright=(screen.get_width() - 400, s
 
 hovered_play_button = False
 hovered_exit_button = False
+game_started = False
 
 # Main loop
 running = True
@@ -57,25 +59,29 @@ while running:
             else:
                 hovered_exit_button = False
 
-    # Smoothly scale the background image to match the window size
-    scaled_background = pygame.transform.smoothscale(background, screen.get_size())
+    if game_started:
+        pass
 
-    # Blit the scaled background image onto the screen
-    screen.blit(scaled_background, (0, 0))
-
-    # Draw play button if not showing exit button
-    
-    if hovered_play_button:
-        screen.blit(play_button_focused, play_button_rect)
     else:
-        screen.blit(play_button, play_button_rect)
-    if hovered_exit_button:
-        screen.blit(exit_button_focused, exit_button_rect)
-    else:
-        screen.blit(exit_button, exit_button_rect)
+        # Smoothly scale the background image to match the window size
+        scaled_background = pygame.transform.smoothscale(background, screen.get_size())
 
-    # Update the display
-    pygame.display.flip()
+        # Blit the scaled background image onto the screen
+        screen.blit(scaled_background, (0, 0))
+
+        # Draw play button if not showing exit button
+        
+        if hovered_play_button:
+            screen.blit(play_button_focused, play_button_rect)
+        else:
+            screen.blit(play_button, play_button_rect)
+        if hovered_exit_button:
+            screen.blit(exit_button_focused, exit_button_rect)
+        else:
+            screen.blit(exit_button, exit_button_rect)
+
+        # Update the display
+        pygame.display.flip()
 
 # Quit Pygame
 pygame.quit()
