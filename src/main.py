@@ -1,4 +1,5 @@
 import pygame
+from menu import Pause
 
 pygame.init()
 
@@ -47,6 +48,9 @@ while running:
 
         if not paused:
             pass
+
+        else:
+            Pause.pause_menu(screen)
 
     # testing
     text = font.render(str(display_info.current_h), True, "black")
