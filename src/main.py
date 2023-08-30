@@ -1,71 +1,82 @@
 import pygame
-from menu import Pause
+import sys
+import os
 
+# Initialize Pygame
 pygame.init()
 
-# display info
-display_info = pygame.display.Info()
-screen_width = display_info.current_w
-screen_height = display_info.current_h
+# Set up the display
+screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+pygame.display.set_caption("Full-Screen Window")
 
-# Load and scale the images to full screen
-picture = pygame.transform.smoothscale(pygame.image.load("../assets/img/bg/bg_intro.png"),
-                                       (screen_width, screen_height))
-play_button = pygame.image.load("../assets/img/btn_play_fcs.png")
-exit_button = pygame.image.load("../assets/img/btn_exit_fcs.png")
+# Load background image
+bg_path = os.path.join("assets", "img", "bg", "bg_intro.png")
+background = pygame.image.load(bg_path).convert()
 
-rect = picture.get_rect()
+# Load play button images
+play_button_path = os.path.join("assets", "img", "btn_play.png")
+play_button = pygame.image.load(play_button_path).convert_alpha()
+play_button_focused_path = os.path.join("assets", "img", "btn_play_fcs.png")
+play_button_focused = pygame.image.load(play_button_focused_path).convert_alpha()
+play_button_rect = play_button.get_rect(topleft=(400, screen.get_height() - play_button.get_height() - 80))
 
-REDUCED_SIZE = (980, 520)
-screen = pygame.display.set_mode((screen_width, screen_height), pygame.FULLSCREEN)
+# Load exit button images
+exit_button_path = os.path.join("assets", "img", "btn_exit.png")
+exit_button = pygame.image.load(exit_button_path).convert_alpha()
+exit_button_focused_path = os.path.join("assets", "img", "btn_exit_fcs.png")
+exit_button_focused = pygame.image.load(exit_button_focused_path).convert_alpha()
+exit_button_rect = exit_button.get_rect(bottomright=(screen.get_width() - 400, screen.get_height() - 80))
 
-clock = pygame.time.Clock()
+hovered_play_button = False
+hovered_exit_button = False
 
-paused = False
+# Main loop
 running = True
-fullscreen = False
-font = pygame.font.Font(None, 36)  # Font for the text
-
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_f:
-                fullscreen = not fullscreen
+            if event.key == pygame.K_ESCAPE:
+                running = False
+            elif event.key == pygame.K_RETURN:
+                show_exit_button = True
 
-                if fullscreen:
-                    picture = pygame.image.load("../assets/img/bg/bg_intro.png")
-                    screen = pygame.display.set_mode(REDUCED_SIZE)
-                    picture = pygame.transform.smoothscale(picture, REDUCED_SIZE)
-                    paused = True
-                else:
-                    picture = pygame.image.load("../assets/img/bg/bg_intro.png")
-                    screen = pygame.display.set_mode((screen_width, screen_height), pygame.FULLSCREEN)
-                    picture = pygame.transform.smoothscale(picture, (screen_width, screen_height))
-                    paused = False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if exit_button_rect.collidepoint(event.pos):
+                running = False
 
-        if not paused:
-            pass
+        elif event.type == pygame.MOUSEMOTION:
+            if play_button_rect.collidepoint(event.pos):
+                hovered_play_button = True
+            else:
+                hovered_play_button = False
 
-        else:
-            Pause.pause_menu(screen)
+            if exit_button_rect.collidepoint(event.pos):
+                hovered_exit_button = True
+            else:
+                hovered_exit_button = False
 
-    # testing
-    text = font.render(str(display_info.current_h), True, "black")
+    # Smoothly scale the background image to match the window size
+    scaled_background = pygame.transform.smoothscale(background, screen.get_size())
 
-    # Blit the text onto the screen
-    text_rect = text.get_rect()
-    text_rect.center = (screen_width // 2, 20)
+    # Blit the scaled background image onto the screen
+    screen.blit(scaled_background, (0, 0))
 
-    # screen.fill("purple")  # Fill screen with purple
-    rect = rect.move((0, 0))
-    screen.blit(picture, rect)
-    screen.blit(play_button, (389, 640))
-    screen.blit(text, text_rect)
+    # Draw play button if not showing exit button
+    
+    if hovered_play_button:
+        screen.blit(play_button_focused, play_button_rect)
+    else:
+        screen.blit(play_button, play_button_rect)
+    if hovered_exit_button:
+        screen.blit(exit_button_focused, exit_button_rect)
+    else:
+        screen.blit(exit_button, exit_button_rect)
 
+    # Update the display
     pygame.display.flip()
-    clock.tick(60)
 
+# Quit Pygame
 pygame.quit()
+sys.exit()
