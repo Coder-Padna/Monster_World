@@ -1,4 +1,6 @@
 import pygame
+import os
+from menu import Pause
 
 pygame.init()
 
@@ -8,21 +10,29 @@ screen_width = display_info.current_w
 screen_height = display_info.current_h
 
 # Load and scale the images to full screen
-picture = pygame.transform.smoothscale(pygame.image.load("../assets/img/bg/bg_intro.png"),
-                                       (screen_width, screen_height))
-play_button = pygame.image.load("../assets/img/btn_play_fcs.png")
-exit_button = pygame.image.load("../assets/img/btn_exit_fcs.png")
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Construct the absolute path to the image
+image_path = os.path.join(script_dir, "../assets/img/bg/bg_intro.png")
+
+picture = pygame.transform.smoothscale(pygame.image.load(image_path), (screen_width, screen_height))
+
+play_button_path = os.path.join(script_dir, "../assets/img/btn_play_fcs.png")
+exit_button_path = os.path.join(script_dir, "../assets/img/btn_exit_fcs.png")
+
+
+play_button = pygame.image.load(play_button_path)
+exit_button = pygame.image.load(exit_button_path)
 
 rect = picture.get_rect()
 
-REDUCED_SIZE = (980, 520)
 screen = pygame.display.set_mode((screen_width, screen_height), pygame.FULLSCREEN)
 
 clock = pygame.time.Clock()
 
 paused = False
 running = True
-fullscreen = False
+fullscreen = True
 font = pygame.font.Font(None, 36)  # Font for the text
 
 while running:
@@ -30,23 +40,16 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_f:
-                fullscreen = not fullscreen
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_p:
+                print("p is pressed")
+                paused = True
 
-                if fullscreen:
-                    picture = pygame.image.load("../assets/img/bg/bg_intro.png")
-                    screen = pygame.display.set_mode(REDUCED_SIZE)
-                    picture = pygame.transform.smoothscale(picture, REDUCED_SIZE)
-                    paused = True
-                else:
-                    picture = pygame.image.load("../assets/img/bg/bg_intro.png")
-                    screen = pygame.display.set_mode((screen_width, screen_height), pygame.FULLSCREEN)
-                    picture = pygame.transform.smoothscale(picture, (screen_width, screen_height))
-                    paused = False
+    if not paused:
+        pass
 
-        if not paused:
-            pass
+    else:
+        Pause.display_pause_menu(screen)
 
     # testing
     text = font.render(str(display_info.current_h), True, "black")
