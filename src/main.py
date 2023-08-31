@@ -15,16 +15,16 @@ bg_path = os.path.join("assets", "img", "bg", "bg_intro.png")
 background = pygame.image.load(bg_path).convert()
 
 # Load play button images
-play_button_path = os.path.join("assets", "img", "btn_play.png")
+play_button_path = os.path.join("assets", "img", "settings", "btn_play.png")
 play_button = pygame.image.load(play_button_path).convert_alpha()
-play_button_focused_path = os.path.join("assets", "img", "btn_play_fcs.png")
+play_button_focused_path = os.path.join("assets", "img", "settings", "btn_play_fcs.png")
 play_button_focused = pygame.image.load(play_button_focused_path).convert_alpha()
 play_button_rect = play_button.get_rect(topleft=(400, screen.get_height() - play_button.get_height() - 80))
 
 # Load exit button images
-exit_button_path = os.path.join("assets", "img", "btn_exit.png")
+exit_button_path = os.path.join("assets", "img", "settings", "btn_exit.png")
 exit_button = pygame.image.load(exit_button_path).convert_alpha()
-exit_button_focused_path = os.path.join("assets", "img", "btn_exit_fcs.png")
+exit_button_focused_path = os.path.join("assets", "img", "settings", "btn_exit_fcs.png")
 exit_button_focused = pygame.image.load(exit_button_focused_path).convert_alpha()
 exit_button_rect = exit_button.get_rect(bottomright=(screen.get_width() - 400, screen.get_height() - 80))
 
@@ -48,6 +48,9 @@ while running:
             if exit_button_rect.collidepoint(event.pos):
                 running = False
 
+            if play_button_rect.collidepoint(event.pos):
+                game_started = True
+
         elif event.type == pygame.MOUSEMOTION:
             if play_button_rect.collidepoint(event.pos):
                 hovered_play_button = True
@@ -60,7 +63,7 @@ while running:
                 hovered_exit_button = False
 
     if game_started:
-        pass
+        Game.run()
 
     else:
         # Smoothly scale the background image to match the window size
