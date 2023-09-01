@@ -1,7 +1,9 @@
 from settings import *
 from player import Player
-import pygame
-import os
+import pygame, os, sys
+
+from levels.level_1 import Map
+
 
 class Game:
     def run():
@@ -13,6 +15,9 @@ class Game:
         pygame.display.update()
         clock = pygame.time.Clock()
         running = True
+        sprinting = False
+        moving = False
+        general_direction = "right"
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -25,14 +30,32 @@ class Game:
 
             keys = pygame.key.get_pressed()
             if keys[pygame.K_LEFT]:
-                player.move_left()
-            if keys[pygame.K_RIGHT]:
-                player.move_right()
-            if keys[pygame.K_UP]:
+                moving = True
+                general_direction = "left"
+                player.move_left(sprinting)
+                if sprinting:
+                    general_direction = "sprinting_sprites_left"
+                else:
+                    general_direction = "running_sprites_left"
+            elif keys[pygame.K_RIGHT]:
+                moving = True
+                general_direction = "right"
+                player.move_right(sprinting)
+                if sprinting:
+                    general_direction = "sprinting_sprites_right"
+                else:
+                    general_direction = "running_sprites_right"
+            elif keys[pygame.K_UP]:
                 player.move_up()
-            if keys[pygame.K_DOWN]:
+            elif keys[pygame.K_DOWN]:
                 player.move_down()
+            else:
+                player.stand(general_direction)
+                moving = False
 
+            if moving:
+                # player.update_animation(animation_direction)
+                player.update_animation()
             screen.blit(scaled_background, (0, 0))
             screen.blit(player.image, player.rect.topleft)  # Blit player's image at player's position
             clock.tick(30)

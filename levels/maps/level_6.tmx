@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="16" height="11" tilewidth="50" tileheight="50" infinite="0" nextlayerid="2" nextobjectid="1">
+ <tileset firstgid="1" source="../../../../assets/blue_grass.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="16" height="11">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+2,3,0,1,3,0,1,3,0,1,3,0,1,3,0,1,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+3,0,1,3,0,1,3,0,1,3,0,1,3,0,1,2,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+2,3,0,1,3,0,1,3,0,1,3,0,1,3,0,1,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+3,0,1,3,0,1,3,0,1,3,0,1,3,0,1,2,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
+</data>
+ </layer>
+</map>

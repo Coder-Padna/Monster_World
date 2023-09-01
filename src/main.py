@@ -21,6 +21,10 @@ play_button_focused_path = os.path.join("assets", "img", "settings", "btn_play_f
 play_button_focused = pygame.image.load(play_button_focused_path).convert_alpha()
 play_button_rect = play_button.get_rect(topleft=(400, screen.get_height() - play_button.get_height() - 80))
 
+# Load the Main music
+# track = pygame.mixer.music.load(os.path.join("assets", "sound", "monster_game_64brt.mp3"))
+# pygame.mixer.music.play(-1)
+
 # Load exit button images
 exit_button_path = os.path.join("assets", "img", "settings", "btn_exit.png")
 exit_button = pygame.image.load(exit_button_path).convert_alpha()
